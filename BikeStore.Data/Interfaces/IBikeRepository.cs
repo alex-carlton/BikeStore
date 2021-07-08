@@ -1,7 +1,7 @@
 ﻿using BikeStore.Common.DTO;
 using System.Collections.Generic;
 
-namespace BikeStore.Common.Interfaces
+namespace BikeStore.Data.Interfaces
 {
     public interface IBikeRepository
     {

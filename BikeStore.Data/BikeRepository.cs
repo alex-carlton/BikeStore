@@ -1,6 +1,6 @@
 ﻿using BikeStore.Common.DTO;
 using BikeStore.Common.Enums;
-using BikeStore.Common.Interfaces;
+using BikeStore.Data.Interfaces;
 using System.Collections.Generic;
 
 namespace BikeStore.Data
