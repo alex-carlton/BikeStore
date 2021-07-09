@@ -34,10 +34,14 @@ namespace BikeStore.ConsoleApp
 
             // Ask user for input
             Console.WriteLine("Welcome to the Bike Store");
-            Console.WriteLine("Please enter your BikeId (Numeric):");
+            Console.WriteLine("Please enter your BikeId (Integer):");
 
             // Reads input from user and checks int type
-            int bikeId = Int32.Parse(Console.ReadLine());
+            if(!Int32.TryParse(Console.ReadLine(), out int bikeId))
+            {
+                _log.LogError("User did not enter an integer value");
+                return;
+            }
 
             Common.DTO.BikeDTO bikeDto = _service.GetBike(bikeId);
 
