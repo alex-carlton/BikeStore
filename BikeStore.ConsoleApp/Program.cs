@@ -1,5 +1,13 @@
-﻿using BikeStore.Service;
+﻿using BikeStore.Data;
+using BikeStore.Data.Interfaces;
+using BikeStore.Service;
+using BikeStore.Service.Interfaces;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Serilog;
 using System;
+using System.IO;
 
 namespace BikeStore.ConsoleApp
 {
@@ -7,22 +15,34 @@ namespace BikeStore.ConsoleApp
     {
         private static void Main(string[] args)
         {
-            // Ask user for input
-            Console.WriteLine("Welcome to the Bike Store");
-            Console.WriteLine("Please enter your BikeId (Numeric):");
+            ConfigurationBuilder builder = new ConfigurationBuilder();
+            BuildConfig(builder);
 
-            // Reads input from user and checks int type
-            int bikeId = Int32.Parse(Console.ReadLine());
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(builder.Build())
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .CreateLogger();
 
-            BikeService bicycleService = new BikeService();
+            var host = Host.CreateDefaultBuilder()
+                .ConfigureServices((context, services) =>
+                {
+                    services.AddTransient<IBikeStore, BikeStore>();
+                    services.AddTransient<IBikeService, BikeService>();
+                    services.AddTransient<IBikeRepository, BikeRepository>();
+                })
+                .UseSerilog()
+                .Build();
 
-            Common.DTO.BikeDTO bikeDto = bicycleService.GetBike(bikeId);
+            BikeStore bikeStore = ActivatorUtilities.CreateInstance<BikeStore>(host.Services);
+            bikeStore.Start();
+        }
 
-            Console.WriteLine($"BikeId: {bikeDto.BikeId}");
-            Console.WriteLine($"Name: {bikeDto.Name}");
-            Console.WriteLine($"Price: {bikeDto.Price}");
-            Console.WriteLine($"Category: {bikeDto.Category}");
-            Console.WriteLine($"Serial Number: {bikeDto.SerialNumber}");
+        private static void BuildConfig(IConfigurationBuilder builder)
+        {
+            builder.SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddEnvironmentVariables();
         }
     }
 }

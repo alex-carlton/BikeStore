@@ -1,21 +1,27 @@
 ﻿using BikeStore.Common.DTO;
 using BikeStore.Data;
+using BikeStore.Data.Interfaces;
 using BikeStore.Service.Interfaces;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 
 namespace BikeStore.Service
 {
     public class BikeService : IBikeService
     {
-        private readonly BikeRepository _repository;
+        private readonly ILogger<BikeService> _log;
+        private readonly IBikeRepository _repository;
 
-        public BikeService()
+        public BikeService(ILogger<BikeService> log, IBikeRepository repoistory)
         {
-            _repository = new BikeRepository();
+            _log = log;
+            _repository = repoistory;
         }
 
         public BikeDTO GetBike(int bikeId)
         {
+            _log.LogInformation("File: BikeService Function: GetBike");
+
             BikeDTO bike = _repository.GetBike(bikeId);
 
             // Business Rules
