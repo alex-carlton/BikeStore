@@ -1,8 +1,6 @@
-﻿using BikeStore.Service;
-using BikeStore.Service.Interfaces;
+﻿using BikeStore.Service.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Serilog;
 using System;
 
 namespace BikeStore.ConsoleApp
@@ -30,6 +28,7 @@ namespace BikeStore.ConsoleApp
 
         public void Start()
         {
+            _log.LogInformation("File: BikeStore Function: Start");
             _log.LogInformation($"{_config.GetValue<string>("ExampleConfigSetting")}");
 
             // Ask user for input
@@ -37,7 +36,7 @@ namespace BikeStore.ConsoleApp
             Console.WriteLine("Please enter your BikeId (Integer):");
 
             // Reads input from user and checks int type
-            if(!Int32.TryParse(Console.ReadLine(), out int bikeId))
+            if (!Int32.TryParse(Console.ReadLine(), out int bikeId))
             {
                 _log.LogError("User did not enter an integer value");
                 return;

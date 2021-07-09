@@ -1,5 +1,4 @@
 ﻿using BikeStore.Common.DTO;
-using BikeStore.Data;
 using BikeStore.Data.Interfaces;
 using BikeStore.Service.Interfaces;
 using Microsoft.Extensions.Logging;

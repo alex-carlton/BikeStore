@@ -4,7 +4,6 @@ using BikeStore.Data.Interfaces;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 
-
 namespace BikeStore.Data
 {
     public class BikeRepository : IBikeRepository
