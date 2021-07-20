@@ -8,8 +8,8 @@ namespace BikeStore.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IDateTimeService _service;
+        private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger, IDateTimeService service)
         {
@@ -34,11 +34,6 @@ namespace BikeStore.WebApp.Controllers
                 ViewData["Message"] = "Good Evening!";
             }
 
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
             return View();
         }
 
